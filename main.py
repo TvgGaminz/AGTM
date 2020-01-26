@@ -161,7 +161,7 @@ while True:
         )
     
     for i in range(blanks):
-        screen.blit(scale(pygame.imag.load("blank.png"), (60, 60)), (940 - i*60, 612))
+        screen.blit(scale(pygame.image.load("blank.png"), (60, 60)), (940 - i*60, 612))
 
     fila = open("score.txt", 'r')
     score = fila.read()
