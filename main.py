@@ -16,7 +16,7 @@ keys_down = {"up":False, "down":False, "left":False, "right":False, "shoot":Fals
 #Генерация экрана
 X = 1024
 Y = 768
-screen = pygame.display.set_mode((X, Y), flags=pygame.FULLSCREEN)
+screen = pygame.display.set_mode()###(X, Y), flags=pygame.FULLSCREEN)
 #Загрузочный экран
 bg = pygame.image.load("loading_screen.png")
 canvas = scale(bg, (1024, 768))
