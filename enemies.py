@@ -38,7 +38,7 @@ class Slime(pygame.sprite.Sprite):
                 return 0
         
         #Анимация
-        self.image = scale(pygame.image.load("Bubilda_animation\Bubilda_"+str(round(self.anim))+".png"), (72, 66))
+        self.image = scale(pygame.image.load("Bubilda_animation/Bubilda_"+str(round(self.anim))+".png"), (72, 66))
         self.anim += 0.25
         if self.anim == 2.5:
             self.anim = 1

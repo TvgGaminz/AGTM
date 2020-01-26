@@ -8,16 +8,19 @@ pygame.init()
 pygame.mixer.music.load("level_sound.mp3")
 pygame.mixer.music.play()
 
+font = pygame.font.Font("ARCADE_N.TTF", 40)
+
 #Список с позицией клавиш (нажата / не нажата)
 keys_down = {"up":False, "down":False, "left":False, "right":False, "shoot":False, "up_shoot":False,
     "down_shoot":False, "left_shoot":False, "right_shoot":False, "dash":False}
 #Генерация экрана
 X = 1024
 Y = 768
-screen = pygame.display.set_mode()#####(X, Y), flags=pygame.FULLSCREEN)
-#Генерация фона
-background = pygame.image.load('bg.png')
-canvas = scale(background, (X, Y))
+screen = pygame.display.set_mode((X, Y), flags=pygame.FULLSCREEN)
+#Загрузочный экран
+bg = pygame.image.load("loading_screen.png")
+canvas = scale(bg, (1024, 768))
+screen.blit(canvas, (0, 0))
 #Генерация персонажа
 herox = 512
 heroy = 600
@@ -29,11 +32,24 @@ entities = pygame.sprite.Group(hero)
 #Random koefficient (чем больше времени не спавнились бубылды, тем больше шанс, что они заспавнятся)
 rk = 0
 
-font = pygame.font.Font("ARCADE_N.TTF", 40)
-
+anim = 0
+loading = font.render("Please wait:", True, (255, 255, 255))
+screen.blit(loading, (300, 400))
+pygame.display.update()
 fila = open("score.txt", 'w')
 fila.write("0")
 fila.close()
+b = [0]*14
+for i in range(14):
+    b[i] = scale(pygame.image.load("Blank animation/b"+str(i+1)+".png"), (768, 768))
+    pygame.draw.rect(screen, (127, 255, 127), (300+i*40, 450, 30, 60))
+    pygame.display.update()
+
+#Генерация фона
+background = pygame.image.load('bg.png')
+canvas = scale(background, (X, Y))
+blanks = 3
+
 while True:
     #Таймер для ФПС (строка 95)
     timer = time.time() + 0.03
@@ -69,12 +85,12 @@ while True:
 
             if event.key == pygame.K_ESCAPE:
                 exit()
-            #Анимация пустышки (тест)
-            if event.key == pygame.K_0:
-                for i in range(9):
-                    screen.blit(scale(pygame.image.load("Blank_animation/blank"+str(i+1)+".png"), (1024, 768)), (0, 0))
-                    pygame.display.update()
-                    screen.blit(canvas, (0, 0))
+            
+            if event.key == pygame.K_l:
+                anim = 1
+                for thing in snaryadi:
+                    if thing.side == "enemy":
+                        thing.kill()
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
@@ -99,6 +115,12 @@ while True:
             if not (keys_down["up_shoot"] or keys_down["down_shoot"] or keys_down["left_shoot"] or keys_down["right_shoot"]):
                 keys_down["shoot"] = False
     
+    if anim > 0:
+        screen.blit(b[anim-1], (128, 0))
+        anim += 1
+        if anim == 15:
+            anim = 0
+
     #Генерация бубылд
     if random.randint(rk, 100) == 100:
         if len(entities) < 10:
@@ -138,6 +160,9 @@ while True:
             scale(pygame.image.load(img), (60, 60)), (940 - i*60, 672)
         )
     
+    for i in range(blanks):
+        screen.blit(scale(pygame.imag.load("blank.png"), (60, 60)), (940 - i*60, 612))
+
     fila = open("score.txt", 'r')
     score = fila.read()
     fila.close()
