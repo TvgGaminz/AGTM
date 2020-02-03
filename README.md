@@ -12,3 +12,6 @@
  K/N/M/, - стрельба по направлению
  J - дэш
  L - пустышка
+
+
+[![Run on Repl.it](https://repl.it/badge/github/TvgGaminz/AGTM)](https://repl.it/github/TvgGaminz/AGTM)

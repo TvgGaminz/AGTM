@@ -1,0 +1,3 @@
+language = "pygame"
+run = "python launcher.py"
+
